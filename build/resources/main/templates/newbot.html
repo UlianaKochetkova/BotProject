@@ -1,0 +1,50 @@
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Создать бота</title>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+<!--</head>-->
+<!--<body>-->
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
+
+<!--<div>-->
+<!--    <form method="get">-->
+<!--        <h2 >Введите имя и токен бота</h2>-->
+<!--        <label >Имя бота</label>-->
+<!--        <input type="text" name="name"/>-->
+<!--        <br/>-->
+
+<!--        <label>Токен бота</label>-->
+<!--        <input type="text" name="token"/>-->
+<!--        <br/>-->
+
+<!--        <input type="submit" value="Create"/>-->
+<!--    </form>-->
+<!--    <div method="post">-->
+<!--        Бот создан успешно-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Создать бота</title>
+</head>
+<body>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<h2>Создать бота</h2>
+<div th:text="${message}"></div>
+<form th:action="@{/newbot}" method="post">
+    <div><label> Bot_name: <input type="text" name="bot_name"/> </label></div>
+    <div><label> Bot_token: <input type="text" name="bot_token"/> </label></div>
+    <div><input type="submit" value="Create new bot"/></div>
+</form>
+</body>
+</html>
