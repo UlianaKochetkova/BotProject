@@ -27,7 +27,12 @@ public class Bot extends TelegramLongPollingBot {
     private String name;
     private String token;
 
-    private final VisitorRepo repo;
+    private VisitorRepo repo;
+
+//    public Bot(){
+//        this.name="practice_first_bot";
+//        this.token="1862052792:AAFB7CszZhg7BOlAW3ibM92LEPhegDfTzzI";
+//    }
 
     public Bot(String name, String token, VisitorRepo vs){
         this.name=name;
@@ -66,7 +71,7 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         //return token;
-        return "1892319457:AAHyS_c360wsMUJv_wG6WA9MxjqykfXZ2TY";
+        return "1862052792:AAFB7CszZhg7BOlAW3ibM92LEPhegDfTzzI";
     }
 
 

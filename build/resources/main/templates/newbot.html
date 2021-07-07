@@ -41,7 +41,7 @@
 </form>
 <h2>Создать бота</h2>
 <div th:text="${message}"></div>
-<form th:action="@{/newbot}" method="post">
+<form th:action="@{/newbot}" th:method="put">
     <div><label> Bot_name: <input type="text" name="bot_name"/> </label></div>
     <div><label> Bot_token: <input type="text" name="bot_token"/> </label></div>
     <div><input type="submit" value="Create new bot"/></div>

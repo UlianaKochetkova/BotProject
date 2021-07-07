@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VisitorRepo extends JpaRepository<Visitor,Integer> {
-    //TODO: проверить работает ли без запросов
     @Query("select t from Visitor t where t.first_name=?1")
     Visitor findVisitorByFirst_name(String name);
 
