@@ -17,7 +17,6 @@ public class Visitor {
     //Данные человека, который внес запись
     private String userFrom;
     //Chat-id
-    //TODO: поменять тип на string и поменять весь код заново
     private Long chatIdFrom;
 
     //Согласие на обработку данных
@@ -62,14 +61,14 @@ public class Visitor {
      * @param fio
      */
     public void setFio(String fio){
-        String lname=fio.substring(0,fio.indexOf(' ')).trim();
-        fio=fio.substring(fio.indexOf(' ')+1);
-        String fname=fio.substring(0,fio.indexOf(' ')).trim();
-        String mname=fio.substring(fio.indexOf(' ')+1).trim();
-
-        setFirst_name(fname);
-        setLast_name(lname);
-        setMiddle_name(mname);
+        fio=fio.trim();
+        String[] lst=fio.split(" ");
+        setFirst_name(lst[1]);
+        setLast_name(lst[0]);
+        if (lst.length>2){
+            setMiddle_name(lst[2]);
+        }
+        else setMiddle_name(null);
     }
 
 
@@ -202,15 +201,5 @@ public class Visitor {
     public void setChatIdFrom(Long chatIdFrom) {
         this.chatIdFrom = chatIdFrom;
     }
-
-//    public Person getPerson() {
-//        return person;
-//    }
-//
-//    public void setPerson(Person person) {
-//        this.person = person;
-//    }
-
-
 
 }

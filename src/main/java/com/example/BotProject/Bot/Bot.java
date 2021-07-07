@@ -4,6 +4,8 @@ import com.example.BotProject.AppForBot.entities.User;
 import com.example.BotProject.AppForBot.entities.UserRepository;
 import com.example.BotProject.Bot.entities.Visitor;
 import com.example.BotProject.Bot.entities.VisitorRepo;
+import com.example.BotProject.Bot.entities.Wait;
+import com.example.BotProject.Bot.entities.WaitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -28,16 +30,18 @@ public class Bot extends TelegramLongPollingBot {
     private String token;
 
     private VisitorRepo repo;
+    private WaitRepo waitrepo;
 
 //    public Bot(){
 //        this.name="practice_first_bot";
 //        this.token="1862052792:AAFB7CszZhg7BOlAW3ibM92LEPhegDfTzzI";
 //    }
 
-    public Bot(String name, String token, VisitorRepo vs){
+    public Bot(String name, String token, VisitorRepo vs, WaitRepo waitrepo){
         this.name=name;
         this.token=token;
         this.repo=vs;
+        this.waitrepo=waitrepo;
     }
 
     /**
@@ -165,9 +169,6 @@ public class Bot extends TelegramLongPollingBot {
             else if (vs.getWay()==2){
                 return passwordInput(vs,msg,sm);
             }
-            else if (vs.getWay()==3){
-                return randomInput(msg,sm);
-            }
 
         }
         return sm;
@@ -212,60 +213,45 @@ public class Bot extends TelegramLongPollingBot {
             case "/input1":
             {
                 //Ищем запись в БД по id чата
-                System.out.println("До setWay\n");
-
-                checkRepo();
-
                 Visitor vs=repo.findVisitorByChatIdFrom(upd.getCallbackQuery().getMessage().getChatId());
                 vs.setWay(1);
-
-                //save(vs);
                 repo.save(vs);
-
-                System.out.println("после Setway\n");
-                checkRepo();
                 sm.setText("Введите ФИО");
             }
             break;
 
             case "/input2":
             {
-
                 //Ищем запись в БД по id чата
                 Visitor vs=repo.findVisitorByChatIdFrom(upd.getCallbackQuery().getMessage().getChatId());
                 vs.setWay(2);
-                //save(vs);
                 repo.save(vs);
 
                 sm.setText("Введите ФИО");
             }
             break;
 
-            case "/input3":
-            {
-                //Ищем запись в БД по id чата
-                Visitor vs=repo.findVisitorByChatIdFrom(upd.getCallbackQuery().getMessage().getChatId());
-                //Устанавливаем 3 способ ввода
-                vs.setWay(3);
-                //Обновляем запись
-                //save(vs);
-                repo.save(vs);
-
-                sm.setText("Рандомный ввод");
-            }
-            break;
-
             //Обработка подтверждения заявки
             case "/confirm_yes":
             {
-                //TODO: отправляем заявку в базу ожидания
+                //Ищем запись в БД по id чата
+                Visitor vs=repo.findVisitorByChatIdFrom(upd.getCallbackQuery().getMessage().getChatId());
+                //Добавляем данные в таблицу ожидания
+                Wait w=new Wait();
+                w.setChatIdFrom(upd.getCallbackQuery().getMessage().getChatId());
+                w.setVisitor_id(vs.getId());
+                waitrepo.save(w);
+                //TODO: отправляем заявку на сервер
                 sm.setText("Ваша заявка принята");
 
             }
             break;
             case "/confirm_no":
             {
-                //TODO: удаляем запись из БД, удаляем из хэшмапы
+                //Ищем запись в БД по id чата
+                Visitor vs=repo.findVisitorByChatIdFrom(upd.getCallbackQuery().getMessage().getChatId());
+                //Удаляем имеющуюся запись
+                repo.delete(vs);
                 sm.setText("Заявка обнулена");
             }
             break;
@@ -373,13 +359,9 @@ public class Bot extends TelegramLongPollingBot {
     public SendMessage standartInput(Visitor vs, String msg, SendMessage sm){
         if (vs.getFirst_name()==null){
             //Обработка ввода ФИО
-            if (msg.matches("[А-Яа-я]+ [А-Яа-я]+ [А-Яа-я]+")){
-                //TODO: проверить корректность случая отсутствия отчества
                 vs.setFio(msg);
                 repo.save(vs);
                 sm.setText("ФИО введено. Введите дату");
-            }
-            else sm.setText("Некорректный ввод ФИО");
         }
 
         else if (vs.getVisit_date()==null){
@@ -406,19 +388,14 @@ public class Bot extends TelegramLongPollingBot {
     public SendMessage passwordInput(Visitor vs, String msg, SendMessage sm){
         msg=msg.trim();
         if (vs.getFirst_name()==null){
-            //Обработка ввода ФИО
-            if (msg.matches("[А-Яа-я]+ [А-Яа-я]+ [А-Яа-я]+")){
                 vs.setFio(msg);
-                //save(vs);
                 repo.save(vs);
                 sm.setText("ФИО введено. Введите серию паспорта");
-            }
         }
 
         else if (vs.getSeries()==null){
             if (msg.matches("\\d{4}")){
                 vs.setSeries(msg);
-                //save(vs);
                 repo.save(vs);
                 sm.setText("Серия введена. Введите номер паспорта");
             }
@@ -427,7 +404,6 @@ public class Bot extends TelegramLongPollingBot {
         else if (vs.getNumber()==null){
             if (msg.matches("\\d+")){
                 vs.setNumber(msg);
-                //save(vs);
                 repo.save(vs);
                 sm.setText("Номер введен. Введите место выдачи паспорта");
             }
@@ -436,7 +412,6 @@ public class Bot extends TelegramLongPollingBot {
 
         else if (vs.getPlace()==null){
             vs.setPlace(msg);
-            //save(vs);
             repo.save(vs);
             sm.setText("Место выдачи паспорта введено. Введите дату выдачи паспорта");
         }
@@ -444,7 +419,6 @@ public class Bot extends TelegramLongPollingBot {
         else if (vs.getPassport_date()==null){
             if (msg.matches("(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).([1-9][0-9]{3})")){
                 vs.setPassport_date(msg);
-                //save(vs);
                 repo.save(vs);
                 sm.setText("Дата выдачи паспорта получена. Прикрепите файл или фото паспорта");
             }
@@ -497,31 +471,4 @@ public class Bot extends TelegramLongPollingBot {
         return inlineConfirm(end_sm);
     }
 
-/////////////////////////////////////////////////////////////////
-//    public Visitor findVisitorByChatIdFrom(Long chatId){
-//
-//        for (int i=0; i<lst.size(); i++){
-//
-//            if (lst.get(i).getChatIdFrom().equals(chatId)){
-//                return lst.get(i);
-//            }
-//        }
-//        return null;
-//    }
-
-    public void checkRepo(){
-        List<Visitor> l=repo.findAll();
-        for (int i=0; i<l.size(); i++){
-            System.out.println("Visitor "+i);
-            System.out.println("Way "+l.get(i).getWay());
-            System.out.println("Id: "+l.get(i).getId());
-            System.out.println("First name: "+l.get(i).getFirst_name());
-            System.out.println("Date: "+l.get(i).getVisit_date());
-        }
-    }
-
-//    public void save(Visitor v){
-//        lst.remove(findVisitorByChatIdFrom(v.getChatIdFrom()));
-//        lst.add(v);
-//    }
 }

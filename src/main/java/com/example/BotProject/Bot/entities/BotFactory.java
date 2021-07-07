@@ -10,6 +10,9 @@ public class BotFactory implements FactoryBean<Bot> {
     @Autowired
     public VisitorRepo repo;
 
+    @Autowired
+    public WaitRepo waitrepo;
+
     private String name;
     private String token;
 
@@ -23,7 +26,7 @@ public class BotFactory implements FactoryBean<Bot> {
     @Override
     public Bot getObject() throws Exception {
         //Здесь создается новый бот. Данные достаем из таблицы
-       return new Bot(name,token,repo);
+       return new Bot(name,token,repo,waitrepo);
     }
 
     @Override
