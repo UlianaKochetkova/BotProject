@@ -68,10 +68,10 @@ public class NewBotController {
             DataBot b=new DataBot(name,token);
             botrepo.save(b);
 
-            bf.newBot(b.getBot_name(),b.getBot_token());
-            Bot bot=bf.getObject();
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(bot);
+//            bf.newBot(b.getBot_name(),b.getBot_token());
+//            Bot bot=bf.getObject();
+//            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+//            telegramBotsApi.registerBot(bot);
 
             model.addAttribute("message","Successful creating");
         }

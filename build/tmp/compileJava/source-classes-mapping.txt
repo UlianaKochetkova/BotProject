@@ -1,32 +1,32 @@
-com/example/BotProject/AppForBot/entities/Role.java
- com.example.BotProject.AppForBot.entities.Role
+com/example/BotProject/Bot/entities/VisitorRepo.java
+ com.example.BotProject.Bot.entities.VisitorRepo
 com/example/BotProject/AppForBot/entities/User.java
  com.example.BotProject.AppForBot.entities.User
 com/example/BotProject/AppForBot/entities/UserRepository.java
  com.example.BotProject.AppForBot.entities.UserRepository
-com/example/BotProject/Application.java
- com.example.BotProject.Application
+com/example/BotProject/Bot/entities/Wait.java
+ com.example.BotProject.Bot.entities.Wait
+com/example/BotProject/Bot/entities/WaitRepo.java
+ com.example.BotProject.Bot.entities.WaitRepo
 com/example/BotProject/AppForBot/controller/RegistrationController.java
  com.example.BotProject.AppForBot.controller.RegistrationController
-com/example/BotProject/AppForBot/config/MvcConfig.java
- com.example.BotProject.AppForBot.config.MvcConfig
+com/example/BotProject/Bot/entities/Visitor.java
+ com.example.BotProject.Bot.entities.Visitor
 com/example/BotProject/AppForBot/entities/DataBot.java
  com.example.BotProject.AppForBot.entities.DataBot
 com/example/BotProject/AppForBot/entities/BotRepository.java
  com.example.BotProject.AppForBot.entities.BotRepository
-com/example/BotProject/Bot/entities/WaitRepo.java
- com.example.BotProject.Bot.entities.WaitRepo
-com/example/BotProject/AppForBot/config/WebSecurityConfig.java
- com.example.BotProject.AppForBot.config.WebSecurityConfig
-com/example/BotProject/Bot/entities/Wait.java
- com.example.BotProject.Bot.entities.Wait
-com/example/BotProject/Bot/entities/VisitorRepo.java
- com.example.BotProject.Bot.entities.VisitorRepo
-com/example/BotProject/Bot/entities/Visitor.java
- com.example.BotProject.Bot.entities.Visitor
 com/example/BotProject/Bot/entities/BotFactory.java
  com.example.BotProject.Bot.entities.BotFactory
+com/example/BotProject/AppForBot/entities/Role.java
+ com.example.BotProject.AppForBot.entities.Role
+com/example/BotProject/Application.java
+ com.example.BotProject.Application
 com/example/BotProject/Bot/Bot.java
  com.example.BotProject.Bot.Bot
 com/example/BotProject/AppForBot/controller/NewBotController.java
  com.example.BotProject.AppForBot.controller.NewBotController
+com/example/BotProject/AppForBot/config/MvcConfig.java
+ com.example.BotProject.AppForBot.config.MvcConfig
+com/example/BotProject/AppForBot/config/WebSecurityConfig.java
+ com.example.BotProject.AppForBot.config.WebSecurityConfig

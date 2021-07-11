@@ -22,7 +22,7 @@ public class RegistrationController {
         return "registration";
     }
 
-    //POST - не показываем в url
+
     @PostMapping("/registration")
     public String addUser(User user, Model model){
         System.out.println("username: "+user.getUsername()+"; password: "+user.getPassword());
